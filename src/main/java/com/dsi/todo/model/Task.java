@@ -8,10 +8,10 @@ import jakarta.persistence.*;
 public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private String id;
+    private Long id;
     private String title;
     private String description;
-    private Integer priority;
+    private String priority;
     private String status;
     private String createdAt;
     private String updatedAt;
@@ -19,7 +19,7 @@ public class Task {
     public Task() {
     }
 
-    public Task(String title, String description, Integer priority, String status, String createdAt, String updatedAt) {
+    public Task(String title, String description, String priority, String status, String createdAt, String updatedAt) {
         this.title = title;
         this.description = description;
         this.priority = priority;
@@ -28,11 +28,11 @@ public class Task {
         this.updatedAt = updatedAt;
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -52,11 +52,11 @@ public class Task {
         this.description = description;
     }
 
-    public Integer getPriority() {
+    public String getPriority() {
         return priority;
     }
 
-    public void setPriority(Integer priority) {
+    public void setPriority(String priority) {
         this.priority = priority;
     }
 
