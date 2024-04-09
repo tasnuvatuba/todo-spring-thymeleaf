@@ -1,5 +1,6 @@
 package com.dsi.todo.controller;
 
+import com.dsi.todo.dto.TaskUpdateDto;
 import org.springframework.ui.Model;
 import com.dsi.todo.dto.TaskCreateDto;
 import com.dsi.todo.model.Task;
@@ -44,6 +45,25 @@ public class TaskController {
 
         taskService.delete(todo);
         return "redirect:/todos";
+    }
+
+    @PostMapping("/{id}")
+    public String updateTodoById(@PathVariable("id") Long id, @ModelAttribute TaskUpdateDto taskUpdateDto) {
+        Optional<Task> optionalTodo = taskService.findById(id);
+        if (optionalTodo.isEmpty()) {
+            return "error";
+        }
+        Task todo = optionalTodo.get();
+        todo.setDescription(taskUpdateDto.getDescription());
+        todo.setTitle(taskUpdateDto.getTitle());
+        todo.setPriority(taskUpdateDto.getPriority());
+        todo.setStatus(taskUpdateDto.getStatus());
+        todo.setUpdatedAt(new Date().toString());
+
+        taskService.save(todo);
+
+        return "redirect:/todos";
+
     }
 
 }
