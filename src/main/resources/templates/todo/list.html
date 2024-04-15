@@ -3,42 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <title>Todo List</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <link th:href="@{styles/list.css}" rel="stylesheet" />
     <script>
         function loadUpdateForm(id, title, description, priority, status) {
-            document.getElementById('todoForm').action = '/todos/' + id;
-            document.getElementById('title').value = title;
-            document.getElementById('description').value = description;
-            document.getElementById('priority').value = priority;
-            document.getElementById('status').value = status;
+            document.getElementById('todoFormModal').action = '/todos/' + id; // Update form action
+            document.getElementById('modalTitle').value = title;
+            document.getElementById('modalDescription').value = description;
+            document.getElementById('modalPriority').value = priority;
+            document.getElementById('modalStatus').value = status;
             document.getElementById('submitButton').value = 'Update';
+            // Show the modal
+            $('#exampleModal').modal('show'); // Show Bootstrap modal
+        }
+        function openAddModal() {
+            document.getElementById('modalId').value = ''; // Clear hidden input value for new todo
+            document.getElementById('modalTitle').value = '';
+            document.getElementById('modalDescription').value = '';
+            document.getElementById('modalPriority').value = 'High'; // Set default priority to High
+            document.getElementById('modalStatus').value = 'Pending'; // Set default status to Pending
+            document.getElementById('submitButton').value = 'Add Todo';
+            $('#exampleModal').modal('show'); // Show Bootstrap modal
         }
     </script>
 </head>
 <body>
 <h1>Todo List</h1>
-<form id="todoForm" action="#" method="post" th:action="@{/todos}">
-    <label for="title">Title:</label>
-    <input type="text" id="title" name="title" required>
-    <br>
-    <label for="description">Description:</label>
-    <input type="text" id="description" name="description" required>
-    <br>
-    <label for="priority">Priority:</label>
-    <select id="priority" name="priority" required>
-        <option value="High">High</option>
-        <option value="Medium">Medium</option>
-        <option value="Low">Low</option>
-    </select>
-    <br>
-    <label for="status">Status:</label>
-    <select id="status" name="status" required>
-        <option value="Pending">Pending</option>
-        <option value="Completed">Completed</option>
-    </select>
-    <br>
-    <input id="submitButton" type="submit" value="Add Todo">
-</form>
+<!-- Button to open modal for adding a new todo -->
+<button type="button" class="btn btn-success mt-3 mb-3" onclick="openAddModal()">Add Todo</button>
+<!-- Bootstrap Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add/Update Todo</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="todoFormModal" action="#" method="post">
+                    <input type="hidden" id="modalId" name="id" />
+                    <label for="modalTitle">Title:</label>
+                    <input type="text" id="modalTitle" name="title" class="form-control" required>
+                    <br>
+                    <label for="modalDescription">Description:</label>
+                    <input type="text" id="modalDescription" name="description" class="form-control" required>
+                    <br>
+                    <label for="modalPriority">Priority:</label>
+                    <select id="modalPriority" name="priority" class="form-control" required>
+                        <option value="High">High</option>
+                        <option value="Medium">Medium</option>
+                        <option value="Low">Low</option>
+                    </select>
+                    <br>
+                    <label for="modalStatus">Status:</label>
+                    <select id="modalStatus" name="status" class="form-control" required>
+                        <option value="Pending">Pending</option>
+                        <option value="Completed">Completed</option>
+                    </select>
+                    <br>
+                    <input id="submitButton" type="submit" value="Add Todo">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 <table>
     <thead>
     <tr>
